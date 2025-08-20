@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>En‑Cure Farms — Land Development, Farm Management, Organic Conversion</title>
+  <meta name="description" content="En‑Cure Farms builds and manages sustainable, profitable farms in Karnataka: land development, farm management, and organic conversion."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root{
+      --bg:#0b0f11;
+      --card:rgba(255,255,255,.08);
+      --glass:rgba(255,255,255,.12);
+      --stroke:rgba(255,255,255,.18);
+      --text:#e8f5e9;
+      --muted:#b7c8b9;
+      --brand-1:#81f34d; /* light from logo */
+      --brand-2:#087a4a; /* dark from logo */
+      --brand:linear-gradient(135deg,var(--brand-1),#3ad46c,var(--brand-2));
+      --shadow-lg:0 20px 60px rgba(0,0,0,.45);
+      --shadow-sm:0 6px 24px rgba(0,0,0,.35);
+      --radius:22px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:"Inter",system-ui,Segoe UI,Roboto,Arial; color:var(--text); background:var(--bg);
+      -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    }
+    a{color:inherit;text-decoration:none}
+
+    /* ---------- Global Layout ---------- */
+    .container{width:min(1140px,92vw); margin-inline:auto}
+    section{padding:70px 0}
+
+    /* ---------- Animated Background (particles + gradient) ---------- */
+    #bg-wrap{position:fixed; inset:0; z-index:-2; overflow:hidden}
+    #gradient{position:absolute; inset:-30% -30% 0 -30%; filter:blur(80px); background:radial-gradient(40% 40% at 20% 20%, #1c5f3a 0%, transparent 60%), radial-gradient(50% 50% at 80% 20%, #5ecb5e 0%, transparent 60%), radial-gradient(40% 40% at 70% 80%, #0b3a27 0%, transparent 60%)}
+    canvas#particles{position:absolute; inset:0; mix-blend-mode:screen; opacity:.6}
+
+    /* ---------- Glass Nav ---------- */
+    .nav{position:sticky; top:0; backdrop-filter:saturate(140%) blur(12px); background:linear-gradient(180deg,rgba(10,12,12,.65),rgba(10,12,12,.35)); border-bottom:1px solid rgba(255,255,255,.06); z-index:50}
+    .nav .inner{display:flex; align-items:center; justify-content:space-between; padding:12px 0}
+    .brand{display:flex; align-items:center; gap:12px}
+    .brand img{width:42px; height:42px; object-fit:contain}
+    .brand .title{font-family:"Space Grotesk",sans-serif; font-weight:700; letter-spacing:.5px}
+    .nav a.button{padding:10px 16px; border-radius:14px; background:var(--brand); box-shadow:var(--shadow-sm); font-weight:700}
+
+    /* ---------- Hero ---------- */
+    .hero{min-height:86vh; display:grid; place-items:center; text-align:center; position:relative}
+    .hero .badge{display:inline-flex; gap:8px; align-items:center; padding:8px 12px; border-radius:999px; background:var(--glass); border:1px solid var(--stroke); box-shadow:var(--shadow-sm); color:var(--muted); font-size:.9rem}
+    .hero h1{font-family:"Space Grotesk"; font-weight:700; line-height:1.06; font-size:clamp(2.2rem,8vw,4rem); margin:14px 0}
+    .hero p{color:var(--muted); font-size:clamp(1rem,2.6vw,1.25rem); max-width:800px; margin-inline:auto}
+    .cta{margin-top:22px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap}
+    .button{display:inline-flex; align-items:center; gap:10px; padding:14px 18px; border-radius:16px; border:1px solid var(--stroke); background:var(--glass); box-shadow:var(--shadow-sm); font-weight:700}
+    .button.primary{background:var(--brand); color:#052b18}
+    .button:hover{transform:translateY(-1px)}
+
+    /* ---------- Icon grid / Services ---------- */
+    .grid{display:grid; gap:18px}
+    @media(min-width:900px){.grid.cols-3{grid-template-columns:repeat(3,1fr)}}
+    .card{background:var(--card); border:1px solid var(--stroke); border-radius:var(--radius); padding:22px; box-shadow:var(--shadow-lg); position:relative; overflow:hidden}
+    .card::after{content:""; position:absolute; inset:-2px -2px auto auto; width:200px; height:200px; background:radial-gradient(closest-side, rgba(255,255,255,.18), transparent 70%); filter:blur(20px); opacity:.3; transform:translate(35%, -35%)}
+    .icon{width:52px; height:52px; display:grid; place-items:center; border-radius:16px; background:var(--brand); color:#052b18; font-size:1.2rem; box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+    .card h3{font-family:"Space Grotesk"; margin:16px 0 8px}
+    .card p{color:var(--muted)}
+    .tilt{transform-style:preserve-3d; will-change:transform}
+
+    /* ---------- Metrics (counters) ---------- */
+    .metrics{display:grid; grid-template-columns:repeat(2,1fr); gap:14px}
+    @media(min-width:840px){.metrics{grid-template-columns:repeat(4,1fr)}}
+    .metric{padding:16px; border-radius:18px; background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.06)); border:1px solid var(--stroke); text-align:center}
+    .metric .num{font-size:clamp(1.6rem,5vw,2.4rem); font-weight:800; font-family:"Space Grotesk"}
+    .metric span{color:var(--muted)}
+
+    /* ---------- Why / Feature rows ---------- */
+    .feature{display:grid; gap:22px; align-items:center}
+    @media(min-width:980px){.feature{grid-template-columns:1.2fr 1fr}}
+    .feature .mock{aspect-ratio:16/10; border-radius:var(--radius); background:conic-gradient(from 180deg at 50% 50%, rgba(129,243,77,.2), rgba(8,122,74,.2), transparent); border:1px solid var(--stroke); backdrop-filter:blur(6px); box-shadow:var(--shadow-lg); position:relative; overflow:hidden}
+    .tag{display:inline-flex; gap:8px; align-items:center; padding:6px 10px; border-radius:999px; background:rgba(0,0,0,.35); border:1px solid var(--stroke); font-size:.85rem}
+
+    /* ---------- Dashboard (charts) ---------- */
+    .charts{display:grid; gap:18px}
+    @media(min-width:980px){.charts{grid-template-columns:2fr 1fr}}
+    .chart-card{padding:18px}
+    canvas{width:100%; height:280px}
+
+    /* ---------- Testimonials (slider) ---------- */
+    .slider{display:grid; grid-auto-flow:column; grid-auto-columns:85%; gap:18px; overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:6px}
+    .slider .card{scroll-snap-align:start}
+
+    /* ---------- Contact ---------- */
+    form{display:grid; gap:12px}
+    input, textarea{width:100%; padding:14px 16px; border-radius:16px; border:1px solid var(--stroke); background:rgba(255,255,255,.06); color:var(--text)}
+
+    /* ---------- Footer ---------- */
+    footer{padding:50px 0; color:var(--muted)}
+
+    /* ---------- Reveal Animations ---------- */
+    .reveal{opacity:0; transform:translateY(18px); transition:.7s cubic-bezier(.2,.8,.2,1)}
+    .reveal.show{opacity:1; transform:none}
+  </style>
+</head>
+<body>
+  <!-- BACKGROUND LAYERS -->
+  <div id="bg-wrap">
+    <div id="gradient"></div>
+    <canvas id="particles"></canvas>
+  </div>
+
+  <!-- NAV -->
+  <div class="nav">
+    <div class="inner container">
+      <div class="brand">
+        <img alt="En‑Cure butterfly logo" src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Butterfly_icon.svg">
+        <div class="title">En‑Cure Farms</div>
+      </div>
+      <div style="display:flex; gap:10px">
+        <a href="#contact" class="button">Contact</a>
+        <a href="#schedule" class="button primary"><i class="fa-regular fa-calendar"></i>Schedule a Call</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <header class="hero container">
+    <div class="reveal">
+      <div class="badge"><i class="fa-solid fa-seedling"></i> Sustainable • Profitable • Managed</div>
+      <h1>Transforming Land into Legacy</h1>
+      <p>We plan, build, and operate high‑performance farms in Karnataka — from <strong>land development</strong> to <strong>farm management</strong> and <strong>organic conversion</strong>. A premium, tech‑forward partner for serious outcomes.</p>
+      <div class="cta">
+        <a class="button primary" href="#services"><i class="fa-solid fa-arrow-down"></i> Explore Services</a>
+        <a class="button" href="#dashboard"><i class="fa-solid fa-chart-line"></i> Client Insights</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- METRICS -->
+  <section class="container">
+    <div class="metrics reveal">
+      <div class="metric"><div class="num" data-count="120">0</div><span>Acres Developed</span></div>
+      <div class="metric"><div class="num" data-count="35">0</div><span>Managed Farms</span></div>
+      <div class="metric"><div class="num" data-count="40">0</div><span>% Water Saved</span></div>
+      <div class="metric"><div class="num" data-count="18">0</div><span>Months to Organic</span></div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="container">
+    <h2 class="reveal" style="font-family:'Space Grotesk'; font-size:clamp(1.6rem,5vw,2.6rem); margin-bottom:14px">What we do</h2>
+    <div class="grid cols-3">
+      <article class="card tilt reveal">
+        <div class="icon"><i class="fa-solid fa-tractor"></i></div>
+        <h3>Land Development</h3>
+        <p>Contour design, soil rehab, irrigation & water budgeting, access roads, fencing, and permitting — readying raw land for productive use.</p>
+      </article>
+      <article class="card tilt reveal">
+        <div class="icon"><i class="fa-solid fa-helmet-safety"></i></div>
+        <h3>Farm Management</h3>
+        <p>Full‑stack operations — crop plans, procurement, labour, input scheduling, IoT monitoring, monthly reporting, and field supervision.</p>
+      </article>
+      <article class="card tilt reveal">
+        <div class="icon"><i class="fa-solid fa-leaf"></i></div>
+        <h3>Organic Conversion</h3>
+        <p>Conversion roadmaps, residue testing, certification support, biologicals program, and premium market access for certified produce.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- DIFFERENTIATORS -->
+  <section class="container feature">
+    <div class="reveal">
+      <span class="tag"><i class="fa-solid fa-bolt"></i> The En‑Cure Difference</span>
+      <h2 style="font-family:'Space Grotesk'; font-size:clamp(1.6rem,5vw,2.6rem); margin:8px 0 12px">Technology + Agronomy, not either/or</h2>
+      <p style="color:var(--muted)">Drone surveys, sensor‑based irrigation, satellite insights, and a clean client dashboard. Backed by practical on‑ground agronomy from our team — <b>Mallikarjun (CEO)</b>, <b>Mukesh (CMO & CFO)</b>, <b>Prajwal (CTO)</b>. We optimise resources and deliver predictable outcomes.</p>
+      <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap">
+        <span class="tag"><i class="fa-solid fa-trowel"></i> Soil‑first approach</span>
+        <span class="tag"><i class="fa-solid fa-droplet"></i> Water intelligence</span>
+        <span class="tag"><i class="fa-solid fa-satellite"></i> Remote sensing</span>
+        <span class="tag"><i class="fa-solid fa-shield-heart"></i> Certification support</span>
+      </div>
+    </div>
+    <div class="mock reveal"></div>
+  </section>
+
+  <!-- DASHBOARD / INSIGHTS (Chart.js) -->
+  <section id="dashboard" class="container">
+    <h2 class="reveal" style="font-family:'Space Grotesk'; font-size:clamp(1.6rem,5vw,2.6rem); margin-bottom:14px">Live Client Insights</h2>
+    <div class="charts">
+      <div class="card chart-card reveal"><canvas id="yieldChart"></canvas></div>
+      <div class="card chart-card reveal"><canvas id="waterChart"></canvas></div>
+    </div>
+    <p class="reveal" style="color:var(--muted); margin-top:12px">A secure portal shows growth curves, input costs, harvest windows, and water use — accessible on mobile for every client.</p>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="container">
+    <h2 class="reveal" style="font-family:'Space Grotesk'; font-size:clamp(1.6rem,5vw,2.6rem); margin-bottom:10px">Field‑proven results</h2>
+    <div class="slider">
+      <div class="card reveal"><h3>“We hit organic in 18 months.”</h3><p style="color:var(--muted)">Yield recovered and input costs fell after the soil program.</p></div>
+      <div class="card reveal"><h3>“Real numbers every month.”</h3><p style="color:var(--muted)">The dashboard changed how we make decisions.</p></div>
+      <div class="card reveal"><h3>“Water savings were dramatic.”</h3><p style="color:var(--muted)">Sensor‑based drip cut use ~40% during summer.</p></div>
+    </div>
+  </section>
+
+  <!-- SCHEDULE -->
+  <section id="schedule" class="container">
+    <div class="card reveal">
+      <div style="display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap:wrap">
+        <div>
+          <h2 style="font-family:'Space Grotesk'">Schedule a consultation</h2>
+          <p style="color:var(--muted)">Pick a time that suits you. We’ll evaluate your land and outline a clear action plan.</p>
+        </div>
+        <a class="button primary" href="#contact"><i class="fa-regular fa-calendar"></i> Book now</a>
+      </div>
+      <div style="margin-top:16px; border-radius:16px; overflow:hidden; border:1px solid var(--stroke); background:rgba(255,255,255,.04); min-height:360px; display:grid; place-items:center">
+        <!-- Replace the placeholder with your Calendly embed -->
+        <p style="color:var(--muted); padding:20px; text-align:center">Embed Calendly or a scheduler here.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="container">
+    <div class="grid" style="gap:18px">
+      <div class="card reveal">
+        <h2 style="font-family:'Space Grotesk'">Contact us</h2>
+        <p style="color:var(--muted)">Tell us about your land and goals. We’ll respond with the fastest next step.</p>
+        <form name="contact" onsubmit="event.preventDefault(); alert('Thanks! We\'ll get back to you shortly.'); this.reset();">
+          <input placeholder="Full name" required>
+          <input type="email" placeholder="Email" required>
+          <input placeholder="Phone">
+          <textarea rows="5" placeholder="How can we help?" required></textarea>
+          <button class="button primary" type="submit"><i class="fa-regular fa-paper-plane"></i> Send</button>
+        </form>
+      </div>
+      <div class="card reveal" style="display:grid; gap:10px">
+        <h3 style="font-family:'Space Grotesk'">En‑Cure Farms</h3>
+        <p style="color:var(--muted)">Karnataka, India</p>
+        <a class="button" href="tel:+910000000000"><i class="fa-solid fa-phone"></i> Call</a>
+        <a class="button" href="mailto:hello@encurefarms.com"><i class="fa-regular fa-envelope"></i> Email</a>
+        <a class="button" target="_blank" href="https://wa.me/0000000000"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="container">
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap">
+      <small>© <span id="year"></span> En‑Cure Farms. All rights reserved.</small>
+      <small style="color:var(--muted)">Built with love for land & environment.</small>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS: particles, tilt, counters, reveal, charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Particles
+    const cvs = document.getElementById('particles');
+    const ctx = cvs.getContext('2d');
+    let W, H, P = [];
+    function resize(){ W= cvs.width = innerWidth; H= cvs.height = innerHeight }
+    addEventListener('resize', resize); resize();
+    for(let i=0;i<90;i++) P.push({x:Math.random()*W, y:Math.random()*H, r:Math.random()*2+0.5, vx:(Math.random()-.5)*.4, vy:(Math.random()-.5)*.4});
+    (function loop(){ requestAnimationFrame(loop); ctx.clearRect(0,0,W,H); ctx.globalCompositeOperation='lighter';
+      for(const p of P){ p.x+=p.vx; p.y+=p.vy; if(p.x<0||p.x>W) p.vx*=-1; if(p.y<0||p.y>H) p.vy*=-1; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle='rgba(129,243,77,.35)'; ctx.fill(); }
+    })();
+
+    // Tilt effect for cards
+    document.querySelectorAll('.tilt').forEach(el=>{
+      el.addEventListener('mousemove', (e)=>{
+        const r = el.getBoundingClientRect();
+        const x = (e.clientX - r.left)/r.width - .5; const y = (e.clientY - r.top)/r.height - .5;
+        el.style.transform = `rotateX(${(-y*6)}deg) rotateY(${(x*6)}deg)`;
+      });
+      el.addEventListener('mouseleave', ()=> el.style.transform='');
+    });
+
+    // Reveal on scroll
+    const obs = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('show'); obs.unobserve(e.target);} })
+    },{threshold:.14});
+    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+    // Counters
+    const nums = document.querySelectorAll('.num');
+    const counterObs = new IntersectionObserver((entries)=>{
+      entries.forEach(({isIntersecting, target})=>{
+        if(!isIntersecting) return; counterObs.unobserve(target);
+        const end = +target.dataset.count; let cur=0; const step=Math.max(1,Math.round(end/90));
+        const t=setInterval(()=>{cur+=step; if(cur>=end){cur=end; clearInterval(t);} target.textContent=cur;},18);
+      })
+    },{threshold:.6});
+    nums.forEach(n=>counterObs.observe(n));
+
+    // Charts demo
+    const yctx = document.getElementById('yieldChart');
+    new Chart(yctx, {type:'line', data:{labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug'], datasets:[{label:'Yield (t/acre)', data:[1.1,1.2,1.5,1.8,2.1,2.3,2.4,2.6], tension:.35, fill:true}]}, options:{responsive:true, plugins:{legend:{display:false}}, scales:{y:{grid:{color:'rgba(255,255,255,.1)'}}, x:{grid:{display:false}}}}});
+    const wctx = document.getElementById('waterChart');
+    new Chart(wctx, {type:'doughnut', data:{labels:['Used','Saved'], datasets:[{data:[60,40]}]}, options:{plugins:{legend:{labels:{color:'#cfe9d1'}}}}});
+  </script>
+</body>
+</html>
